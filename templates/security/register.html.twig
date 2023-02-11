@@ -1,0 +1,24 @@
+{% extends './security/base.html.twig' %}
+
+{# vendor\symfony\twig-bridge\Resources\views\Form #}
+{% form_theme registrationForm 'register.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    {{ form_start(registrationForm, {'attr': {'class': 'form-signin'}}) }}
+
+        <img class="mb-4" src="{{ asset('assets/img/logo.png') }}" alt="Logo" width="150" height="140">
+        <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
+
+        {{ form_row(registrationForm.username) }}
+        {{ form_row(registrationForm.plainPassword) }}
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">
+        S'inscrire
+    </button>
+
+    <p class="mt-5 mb-3 text-muted"><a class="text-muted" href="{{ path('app_login') }}">Retour à la connexion</a></p>
+    <p class="text-muted">&copy; {{ 'now' | date('Y') }} - Tom R.</p>
+    {{ form_end(registrationForm) }}
+{% endblock %}

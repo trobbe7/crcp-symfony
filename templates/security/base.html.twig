@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="author" content="Tom R." />
+    <meta name="robots" content="noindex" />
+    <meta name="robots" content="nofollow" />
+    <meta name="googlebot" content="noindex" />
+    <meta name="googlebot" content="nofollow" />
+
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}" />
+
+    <title>
+      CRCP -{% block title %}
+      {% endblock %}
+    </title>
+
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
+
+    <link href="{{ asset('assets/css/login.css') }}" rel="stylesheet" />
+  </head>
+
+  <body class="text-center">
+    {% block body %}
+    {% endblock %}
+  </body>
+</html>

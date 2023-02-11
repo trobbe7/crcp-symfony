@@ -1,0 +1,242 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Tableau de bord
+{% endblock %}
+
+{% block body %}
+  <!-- Main Content -->
+
+  <div id="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800" style="padding-top: 20px;">Tableau de bord - {{ 'now'|date('d/m/y') }}</h1>
+        {% if remainingDays < 1 %}
+          <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;"><i class="fas fa-exclamation-triangle"></i><span style="color: red;">Dernier</span> jour</h2>
+        {% elseif remainingDays == 1 %}
+          <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;"><i class="fas fa-exclamation-triangle"></i><span style="color: red;">{{ remainingDays }}</span> jour restant</h2>
+        {% elseif remainingDays > 1 and remainingDays <= 7 %}
+          <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;"><i class="fas fa-exclamation-triangle"></i><span style="color: red;">{{ remainingDays }}</span> jours restants</h2>
+        {% else %}
+          <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;">{{ remainingDays }} jours restants</h2>
+        {% endif %}
+      </div>
+
+      <!-- Returns Flash Alerts -->
+      {% for success_message in app.flashes('success_message') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <strong>Succès!</strong> {{ success_message }}.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+      {% endfor %}
+
+      {% for error_message in app.flashes('error_message') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <strong>Erreur!</strong> {{ error_message }}.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+      {% endfor %}
+      <!-- Returns Flash Alerts -->
+
+      <!-- Moy. Traitements -->
+      <div class="row">
+        <!-- Card 1 -->
+        <div class="col-xl-6 col-md-6 mb-4">
+          <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Votre moyenne de traitement</div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                        <span>{{ moyenne }}</span>
+                        <span style="font-size: 0.87em;">/ h</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-signal fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nb. Traitements -->
+        <div class="col-xl-6 col-md-6 mb-4">
+          <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Votre nombre de traitements</div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                        {{ traitements }} <span style="font-size: 0.9em;">traitements</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-inbox fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Row -->
+
+      <div class="row">
+        <!-- Area Chart -->
+        <div class="col-xl-8 col-lg-7">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Resultats -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Évolution au cours du mois</h6>
+            </div>
+            <!-- Chart Resultats -->
+            <div class="card-body">
+              <div class="chart-area">
+                <canvas id="chartResultats"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pie Chart -->
+        <div class="col-xl-4 col-lg-5">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Poids -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Poids des canaux</h6>
+            </div>
+            <!-- Chart Poids -->
+            <div class="card-body">
+              <div class="chart-pie pt-4 pb-2">
+                <canvas id="chartPoids"></canvas>
+              </div>
+              <div class="mt-4 text-center small">
+                <span class="mr-2"><i class="fas fa-circle" style="color: #4e73df;"></i> Téléphone</span>
+                <span class="mr-2"><i class="fas fa-circle" style="color: #00ff00;"></i> Mail</span>
+                <span class="mr-2"><i class="fas fa-circle" style="color: #f6c23e;"></i> DEC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Content Row -->
+      <div class="row">
+        <!-- Content Column -->
+        <div class="col-lg-12 mb-4">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Recapitulatif -->
+            <a href="#collapseRecapitulatif" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseRecapitulatif"><h6 class="m-0 font-weight-bold text-primary">Récapitulatif de votre objectif</h6></a>
+            <!-- Card Content - Collapse -->
+            <div class="collapse show" id="collapseRecapitulatif">
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                      <tr>
+                        <th>Pourcentage</th>
+                        <th>Heures travaillées</th>
+                        <th>Moyenne nécessaire</th>
+                        <th>Date</th>
+                        <th>Statut</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>90%</td>
+                        <td>
+                          {% if workingTime == 0 or workingTime is null %}
+                            --:--
+                          {% else %}
+                            {{ workingTime|d_FullTime }}
+                          {% endif %}
+                        </td>
+                        <td class="perHour">{{ obj90 }}</td>
+                        <td style="text-transform: capitalize;">{{ 'now'|format_date(locale = 'fr', pattern = 'MMMM YYYY') }}</td>
+                        <td>
+                          {% if obj90 == '-' %}
+                            <font>Aucun objectif</font>
+                          {% elseif moyenne < obj90 %}
+                            <font style="color: red">Non-Atteint</font>
+                          {% else %}
+                            <font style="color: green">Atteint</font>
+                          {% endif %}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>100%</td>
+                        <td>
+                          {% if workingTime == 0 or workingTime is null %}
+                            --:--
+                          {% else %}
+                            {{ workingTime|d_FullTime }}
+                          {% endif %}
+                        </td>
+                        <td class="perHour">{{ obj100 }}</td>
+                        <td style="text-transform: capitalize;">{{ 'now'|format_date(locale = 'fr', pattern = 'MMMM YYYY') }}</td>
+                        <td>
+                          {% if obj100 == '-' %}
+                            <font>Aucun objectif</font>
+                          {% elseif moyenne < obj100 %}
+                            <font style="color: red">Non-Atteint</font>
+                          {% else %}
+                            <font style="color: green">Atteint</font>
+                          {% endif %}
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>110%</td>
+                        <td>
+                          {% if workingTime == 0 or workingTime is null %}
+                            --:--
+                          {% else %}
+                            {{ workingTime|d_FullTime }}
+                          {% endif %}
+                        </td>
+                        <td class="perHour">{{ obj110 }}</td>
+                        <td style="text-transform: capitalize;">{{ 'now'|format_date(locale = 'fr', pattern = 'MMMM YYYY') }}</td>
+                        <td>
+                          {% if obj110 == '-' %}
+                            <font>Aucun objectif</font>
+                          {% elseif moyenne < obj110 %}
+                            <font style="color: red">Non-Atteint</font>
+                          {% else %}
+                            <font style="color: green">Atteint</font>
+                          {% endif %}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Main Content -->
+{% endblock %}
+
+{% block javascript %}
+  <!-- Needed Libraries -->
+  <script src="{{ asset('assets/vendor/chart.js/Chart.min.js') }}"></script>
+
+  <!-- Data Scripts | Charts -->
+  <script src="{{ asset('assets/js/charts/chart-area.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('assets/js/charts/chart-pie.js') }}" type="text/javascript"></script>
+{% endblock %}

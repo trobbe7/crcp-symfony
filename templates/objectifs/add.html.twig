@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{# vendor\symfony\twig-bridge\Resources\views\Form #}
+{% form_theme objectif_form 'main.html.twig' %}
+
+{% block title %}
+  Ajouter un objectif
+{% endblock %}
+
+{% block body %}
+  <!-- Main Content -->
+  <div id="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800" style="padding-top: 20px;">Ajouter un objectif</h1>
+      </div>
+
+      <!-- Content Row -->
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-7">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Données</h6>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body">
+              <!-- Returns Flash Alerts -->
+
+              <!-- Returns Flash Alerts -->
+
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="date">Mois actuel</label>
+                  <input type="text" class="form-control" id="date" style="text-transform: capitalize;" readonly placeholder="{{ 'now'|format_date(locale = 'fr', pattern = 'MMMM YYYY') }}" value="{{ 'now'|format_date(locale = 'fr', pattern = 'MMMM YYYY') }}" />
+                </div>
+              </div>
+
+              <hr />
+
+              {{ form_start(objectif_form) }}
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="obj90">Moyenne de traitement - 90%</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fas fa-thermometer-empty"></i>
+                      </div>
+                    </div>
+                    {{ form_widget(objectif_form.obj90) }}
+                    {{ form_errors(objectif_form.obj90) }}
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="obj100">Moyenne de traitement - 100%</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fas fa-thermometer-half"></i>
+                      </div>
+                    </div>
+                    {{ form_widget(objectif_form.obj100) }}
+                    {{ form_errors(objectif_form.obj100) }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="obj110">Moyenne de traitement - 110%</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fas fa-thermometer-full"></i>
+                      </div>
+                    </div>
+                    {{ form_widget(objectif_form.obj110) }}
+                    {{ form_errors(objectif_form.obj110) }}
+                  </div>
+                </div>
+              </div>
+
+              <br />
+
+              <button type="submit" class="btn btn-primary">Ajouter</button>
+              {{ form_end(objectif_form) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Main Content -->
+{% endblock %}

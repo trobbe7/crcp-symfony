@@ -1,0 +1,32 @@
+{% extends './security/base.html.twig' %}
+
+{% block title %}
+  Connexion
+{% endblock %}
+
+{% block body %}
+  <form class="form-signin" method="post">
+    <img class="mb-4" src="{{ asset('assets/img/logo.png') }}" alt="Logo" width="150" height="140" />
+
+    <h1 class="h3 mb-3 font-weight-normal">Accès Limité</h1>
+
+    {% if error %}
+      <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <label for="inputUsername" class="sr-only">Mail</label>
+    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" placeholder="Email" required autofocus />
+
+    <label for="inputPassword" class="sr-only">Mot de passe</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" autocomplete="current-password" required />
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
+
+    <p class="mt-5 mb-3 text-muted">
+      <a class="text-muted" href="{{ path('app_register') }}">Créer un compte</a>
+    </p>
+    <p class="text-muted">&copy; {{ 'now'|date('Y') }} - Tom R.</p>
+  </form>
+{% endblock %}

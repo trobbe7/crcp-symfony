@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{# vendor\symfony\twig-bridge\Resources\views\Form #}
+{% form_theme resultat_form 'main.html.twig' %}
+
+{% block title %}
+  Modifier un résultat
+{% endblock %}
+
+{% block body %}
+  <!-- Main Content -->
+  <div id="content">
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800" style="padding-top: 20px;">Modifier un résultat</h1>
+      </div>
+
+      <!-- Content Row -->
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-7">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Données</h6>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body">
+              <!-- Returns Flash Alerts -->
+              {% for warning_message in app.flashes('warning_message') %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <strong>Attention!</strong> {{ warning_message }}.
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+              {% endfor %}
+              <!-- Returns Flash Alerts -->
+
+              <div class="form-row">
+                <div class="form-group col-md-12">
+                  <label for="date">Date du résultat</label>
+                  <input type="text" class="form-control" id="date" readonly placeholder="{{ resultat_date|format_date(locale = 'fr', pattern = 'dd MMMM YYYY') }}" value="{{ resultat_date|format_date(locale = 'fr', pattern = 'dd MMMM YYYY') }}" />
+                </div>
+              </div>
+
+              <hr />
+
+              {{ form_start(resultat_form) }}
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="nbtraitementstel">Nombre de traitements - Téléphone</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fas fa-phone"></i>
+                      </div>
+                    </div>
+                    {{ form_widget(resultat_form.tel) }}
+                    {{ form_errors(resultat_form.tel) }}
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="nbtraitementsmail">Nombre de traitements - Mail</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fas fa-envelope"></i>
+                      </div>
+                    </div>
+                    {{ form_widget(resultat_form.mail) }}
+                    {{ form_errors(resultat_form.mail) }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="nbtraitementsdec">Nombre de traitements - DEC</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fas fa-inbox"></i>
+                      </div>
+                    </div>
+                    {{ form_widget(resultat_form.correspondances) }}
+                    {{ form_errors(resultat_form.correspondances) }}
+                  </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="nbtime">Nombre d'heures travaillées</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fas fa-clock"></i>
+                      </div>
+                    </div>
+                    {{ form_widget(resultat_form.full_time) }}
+                    {{ form_errors(resultat_form.full_time) }}
+                  </div>
+                </div>
+              </div>
+
+              <br />
+
+              <button type="submit" class="btn btn-primary">Modifier</button>
+              <a href="ms-calculator://" class="btn btn-primary" style="margin-left: 15px;"><i class="fas fa-calculator"></i></a>
+              {{ form_end(resultat_form) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Main Content -->
+{% endblock %}

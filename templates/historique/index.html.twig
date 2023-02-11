@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Historique
+{% endblock %}
+
+{% block stylesheet %}
+  <!-- Custom Style Component -->
+  <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+  <!-- Main Content -->
+  <div id="content">
+    <br />
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Historique</h1>
+      <br />
+
+      <!-- DataTables -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Données</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>ID Interne</th>
+                  <th>Heures travaillées</th>
+                  <th>Nombre de traitements</th>
+                  <th>Moyenne de traitement</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for resultat in historique %}
+                  <tr>
+                    <td scope="row">{{ resultat.id }}</td>
+                    <td>{{ resultat.timeMinutes|d_FullTime }}</td>
+                    <td>{{ resultat.traitements }}</td>
+                    <td class="perHour">{{ (resultat.traitements / resultat.fullTime)|number_format(1, '.', '') }}</td>
+                    <td>
+                      <span class="hiddenTime">{{ resultat.createdAt|date('Ymd') }}</span>{{ resultat.createdAt|format_date(locale = 'fr', pattern = 'dd MMMM YYYY') }}
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Main Content -->
+{% endblock %}
+
+{% block javascript %}
+  <!-- Needed Libraries -->
+  <script src="{{ asset('assets/vendor/datatables/jquery.dataTables.js') }}"></script>
+  <script src="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
+  <!-- Data Scripts | DataTables -->
+  <script src="{{ asset('assets/js/dataTables.js') }}"></script>
+{% endblock %}
