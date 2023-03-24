@@ -10,9 +10,15 @@
 
     <h1 class="h3 mb-3 font-weight-normal">Accès Limité</h1>
 
+    <!-- Returns Flash Alerts -->
     {% if error %}
       <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
+
+    {% for success_message in app.flashes('success_message') %}
+      <div class="alert alert-success">{{ success_message }}</div>
+    {% endfor %}
+    <!-- Returns Flash Alerts -->
 
     <label for="inputUsername" class="sr-only">Mail</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" placeholder="Email" required autofocus />
@@ -25,7 +31,7 @@
     <button class="btn btn-lg btn-primary btn-block" type="submit">Connexion</button>
 
     <p class="mt-5 mb-3 text-muted">
-      <a class="text-muted" href="{{ path('app_register') }}">Créer un compte</a>
+      <a class="text-muted" href="{{ path('app_register') }}">Créer un compte</a> • <a class="text-muted" href="{{ path('app_forgot_password_request') }}">Mot de passe oublié</a>
     </p>
     <p class="text-muted">&copy; {{ 'now'|date('Y') }} - Tom R.</p>
   </form>

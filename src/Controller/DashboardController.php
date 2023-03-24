@@ -28,7 +28,7 @@ class DashboardController extends AbstractController
         $timestamp = strtotime($timestamp);
         $remainingDays = (int)date('t', $timestamp) - (int)date('j', $timestamp);
 
-        // Récupère le le userID
+        // Récupère le userID
         $uid = $this->security->getUser();
         $uid = $uid->getId();
 

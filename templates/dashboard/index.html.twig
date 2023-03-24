@@ -14,11 +14,11 @@
       <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800" style="padding-top: 20px;">Tableau de bord - {{ 'now'|date('d/m/y') }}</h1>
         {% if remainingDays < 1 %}
-          <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;"><i class="fas fa-exclamation-triangle"></i><span style="color: red;">Dernier</span> jour</h2>
+          <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;"><i class="fas fa-exclamation-triangle" style="padding-right: 5px;"></i><span style="color: red;">Dernier</span> jour</h2>
         {% elseif remainingDays == 1 %}
-          <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;"><i class="fas fa-exclamation-triangle"></i><span style="color: red;">{{ remainingDays }}</span> jour restant</h2>
+          <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;"><i class="fas fa-exclamation-triangle" style="padding-right: 5px;"></i><span style="color: red;">{{ remainingDays }}</span> jour restant</h2>
         {% elseif remainingDays > 1 and remainingDays <= 7 %}
-          <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;"><i class="fas fa-exclamation-triangle"></i><span style="color: red;">{{ remainingDays }}</span> jours restants</h2>
+          <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;"><i class="fas fa-exclamation-triangle" style="padding-right: 5px;"></i><span style="color: red;">{{ remainingDays }}</span> jours restants</h2>
         {% else %}
           <h2 class="h3 mb-0 text-gray-800" style="padding-top: 20px;">{{ remainingDays }} jours restants</h2>
         {% endif %}

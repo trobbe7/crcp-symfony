@@ -105,6 +105,10 @@ class ResultatsController extends AbstractController
             $this->addFlash('error_message', "Le mois de votre résultat est clôturé. Il est donc impossible de le modifier");
             return $this->redirectToRoute('app_dashboard');
         }
+        // Si le résultat ne date pas d'aujourd'hui, on informe user
+        elseif ((date('Y-m-d', strtotime($repo->getCreatedAt()->format('Y-m')))) != (date('Y-m-d'))) {
+            $this->addFlash('warning_message', "Le résultat ne date pas d'aujourd'hui");
+        }
 
         // Paramétrage du formulaire
         $form = $this->createForm(ResultatsManageType::class, $repo);

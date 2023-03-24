@@ -18,7 +18,7 @@ class ChartsController extends AbstractController
         $this->security = $security;
     }
 
-    #[Route('/charts/area', name: 'app_api_chartarea', methods: ['GET'])]
+    #[Route('/charts/area', name: 'app_api_areachart', methods: ['GET'])]
     public function areaChart(ResultatsRepository $resultatsRepository): Response
     {
 

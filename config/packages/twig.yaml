@@ -1,5 +1,9 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    globals:
+        'revision' : '%app.revision%'
+    paths:
+        '%kernel.project_dir%/public/assets/img': img
 
 when@test:
     twig:

@@ -1,0 +1,32 @@
+{% extends './security/base.html.twig' %}
+
+{% block title %}
+  Réinitialisation
+{% endblock %}
+
+{# vendor\symfony\twig-bridge\Resources\views\Form #}
+{% form_theme resetForm 'reset_password.html.twig' %}
+
+{% block body %}
+  <form class="form-signin" method="post">
+
+    {{ form_start(resetForm, {'attr': {'class': 'form-signin'}}) }}
+    
+    <img class="mb-4" src="{{ asset('assets/img/logo.png') }}" alt="Logo" width="150" height="140" />
+    <h1 class="h3 mb-3 font-weight-normal">Réinitialisation</h1>
+
+    {% for flash_error in app.flashes('reset_password_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    {{ form_row(resetForm.plainPassword) }}
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Réinitialiser</button>
+
+    <p class="mt-5 mb-3 text-muted">
+      &copy; {{ 'now'|date('Y') }} - Tom R.
+    </p>
+    {{ form_end(resetForm) }}
+  </form>
+{% endblock %}
+

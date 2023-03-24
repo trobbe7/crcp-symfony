@@ -24,7 +24,7 @@ class HistoriqueController extends AbstractController
     public function index(ResultatsRepository $resultatsRepository): Response
     {
 
-        // Récupère le le userID
+        // Récupère le userID
         $uid = $this->security->getUser();
         $uid = $uid->getId();
 
