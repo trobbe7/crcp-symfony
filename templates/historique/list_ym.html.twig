@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Historique - Simplifié
+  Historique - Détaillé - {{ input_date|format_date(locale = 'fr', pattern = 'MMMM YYYY') }}
 {% endblock %}
 
 {% block stylesheet %}
@@ -16,7 +16,7 @@
     <!-- Begin Page Content -->
     <div class="container-fluid">
       <!-- Page Heading -->
-      <h1 class="h3 mb-2 text-gray-800">Historique - Simplifié</h1>
+      <h1 class="h3 mb-2 text-gray-800" style="text-transform: capitalize;">Historique - Détaillé - {{ input_date|format_date(locale = 'fr', pattern = 'MMMM YYYY') }}</h1>
       <br />
 
       <!-- DataTables -->
@@ -34,6 +34,7 @@
                   <th>Nombre de traitements</th>
                   <th>Moyenne de traitement</th>
                   <th>Date</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,6 +47,7 @@
                     <td>
                       <span class="hiddenTime">{{ resultat.createdAt|date('Ymd') }}</span>{{ resultat.createdAt|format_date(locale = 'fr', pattern = 'dd MMMM YYYY') }}
                     </td>
+                    <td><a href="{{ path('app_historique_detail_result', {'resultat': resultat.id }) }}" class="btn btn-primary btn-sm" style="width: 100%" role="button"><i class="fas fa-binoculars" style="padding-right: 8px;"></i>Détail</a></td>
                   </tr>
                 {% endfor %}
               </tbody>

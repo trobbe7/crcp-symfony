@@ -65,6 +65,11 @@ class ResultatsController extends AbstractController
             // Transformation du full_time en time_minutes
             $resultat->setTimeMinutes($data->getFullTime() * 60);
 
+            // Si un commentaire spécifique est renseigné par user, on le récupère
+            if($data->getCommentaire()) {
+                $resultat->setCommentaire($data->getCommentaire());
+            }
+
             // Ajout de la date de la création du résultat
             $currentDate = date('Y-m-d H:i:s');
             $createdAt = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $currentDate);
@@ -106,7 +111,7 @@ class ResultatsController extends AbstractController
             return $this->redirectToRoute('app_dashboard');
         }
         // Si le résultat ne date pas d'aujourd'hui, on informe user
-        elseif ((date('Y-m-d', strtotime($repo->getCreatedAt()->format('Y-m')))) != (date('Y-m-d'))) {
+        elseif ((date('Y-m-d', strtotime($repo->getCreatedAt()->format('Y-m-d')))) != (date('Y-m-d'))) {
             $this->addFlash('warning_message', "Le résultat ne date pas d'aujourd'hui");
         }
 
@@ -133,6 +138,11 @@ class ResultatsController extends AbstractController
 
             // Transformation du full_time en time_minutes
             $repo->setTimeMinutes($data->getFullTime() * 60);
+
+            // Si un commentaire spécifique est renseigné par user, on le récupère
+            if($data->getCommentaire()) {
+                $repo->setCommentaire($data->getCommentaire());
+            }
 
             // Update Doctrine
             $entityManager->persist($repo);

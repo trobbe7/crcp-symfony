@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Historique - Détaillé
+{% endblock %}
+
+{% block stylesheet %}
+  <!-- Custom Style Component -->
+  <link href="{{ asset('assets/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+  <!-- Main Content -->
+  <div id="content">
+    <br />
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+      <!-- Page Heading -->
+      <h1 class="h3 mb-2 text-gray-800">Historique - Détaillé</h1>
+      <br />
+
+      <!-- DataTables -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Données</h6>
+        </div>
+
+        {% set years = [] %}
+        {% set counter = 0 %}
+
+        {% for resultat in historique %}
+          {% set year = resultat.createdAt|date('Y') %}
+
+          {% if year not in years %}
+            {% set years = years|merge([year]) %}
+          {% endif %}
+
+          {% set counter = counter + 1 %}
+        {% endfor %}
+
+        <div class="card-body">
+          <ul class="nav nav-pills nav-fill" style="gap: 10px;" id="pills-tab" role="tablist">
+            {% for year in years %}
+              <li class="nav-item border border-primary rounded">
+                <a class="nav-link {% if loop.index == 1 %}active{% endif %}" id="pills-{{ year }}-tab" data-toggle="pill" href="#pills-{{ year }}" role="tab">{{ year }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+
+          <br />
+
+          <div class="tab-content" id="pills-tabContent">
+            {% for year in years %}
+              <div class="tab-pane fade {% if loop.index == 1 %}show active{% endif %}" id="pills-{{ year }}" role="tabpanel">
+                {% set months = [] %}
+                <div class="row">
+                  {% for resultat in historique|reverse %}
+                    {% set resultat_year = resultat.createdAt|date('Y') %}
+                    {% set resultat_month = resultat.createdAt|date('m') %}
+                    {% if resultat_year == year and resultat_month not in months %}
+                      <div class="col-sm-4" style="padding-top: 10px;">
+                        <div class="card">
+                          <div class="card-body">
+                            <h5 class="card-title" style="text-transform: capitalize;">{{ resultat.createdAt|format_date(locale = 'fr', pattern = 'MMMM YYYY') }}</h5>
+                            <a href="{{ path('app_historique_detail_list_ym', { year: resultat_year, month: resultat_month }) }}" class="btn btn-primary" role="button"><i class="fas fa-arrow-right" style="padding-right: 8px;"></i>Accéder</a>
+                          </div>
+                        </div>
+                      </div>
+
+                      {% set months = months|merge([resultat_month]) %}
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </div>
+  <!-- End of Main Content -->
+{% endblock %}

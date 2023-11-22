@@ -8,7 +8,7 @@ parameters:
     app.full_name: 'Team-CRCP'
     app.shrink_name: 'CRCP'
     app.admin_email: 'admin@team-crcp.com'
-    app.revision: '2.1.0'
+    app.revision: '2.2.0'
 
 services:
     # default configuration for services in *this* file

@@ -17,7 +17,7 @@
     <link rel="icon" type="image/png" href="{{ asset('assets/img/logo.png') }}" />
 
     <title>
-      CRCP -{% block title %}
+      {{ site_title }} -{% block title %}
 
       {% endblock %}
     </title>
@@ -53,7 +53,7 @@
 
         <!-- Nav Item - Dashboard -->
 
-        <li {% if route_name == "app_dashboard" %}class="nav-item active"{% else %}class="nav-item"{% endif %}>
+        <li class="nav-item {% if route_name == "app_dashboard" %}active{% endif %}">
           <a class="nav-link" href="{{ path('app_dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Tableau de bord</span>
@@ -67,12 +67,12 @@
         <div class="sidebar-heading">Utilities</div>
 
         <!-- Nav Item - Add Collapse Menu -->
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <li class="nav-item {% if route_name == "app_resultats_add" or route_name == "app_objectifs_add" %}active{% endif %}">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAdd" aria-expanded="true" aria-controls="collapseAdd">
             <i class="fas fa-fw fa-plus"></i>
             <span>Ajouter</span>
           </a>
-          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div id="collapseAdd" class="collapse" aria-labelledby="headingAdd">
             <div class="bg-white py-2 collapse-inner rounded">
               <a class="collapse-item" href="{{ path('app_resultats_add') }}">{% if route_name == "app_resultats_add" %}> {% else %}{% endif %}Résultat</a>
               <a class="collapse-item" href="{{ path('app_objectifs_add') }}">{% if route_name == "app_objectifs_add" %}> {% else %}{% endif %}Objectif</a>
@@ -81,12 +81,12 @@
         </li>
 
         <!-- Nav Item - Management Collapse Menu -->
-        <li class="nav-item">
-          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+        <li class="nav-item {% if route_name == "app_resultats_manage" or route_name == "app_objectifs_manage" %}active{% endif %}">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseManage" aria-expanded="true" aria-controls="collapseManage">
             <i class="fas fa-fw fa-cog"></i>
             <span>Management</span>
           </a>
-          <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div id="collapseManage" class="collapse" aria-labelledby="headingManage">
             <div class="bg-white py-2 collapse-inner rounded">
               <a class="collapse-item" href="{{ path('app_resultats_manage') }}">{% if route_name == "app_resultats_manage" %}> {% else %}{% endif %}Modif. un résultat</a>
               <a class="collapse-item" href="{{ path('app_objectifs_manage') }}">{% if route_name == "app_objectifs_manage" %}> {% else %}{% endif %}Modif. un objectif</a>
@@ -94,13 +94,18 @@
           </div>
         </li>
 
-        <!-- Nav Item - Historique -->
-        	
-        <li {% if route_name == "app_historique" %}class="nav-item active"{% else %}class="nav-item"{% endif %}>
-          <a class="nav-link" href="{{ path('app_historique') }}">
+        <!-- Nav Item - Historique Collapse Menu -->
+        <li class="nav-item {% if route_name == "app_historique" or route_name == "app_historique_detail_list" or route_name == "app_historique_detail_list_ym" or route_name == "app_historique_detail_result" %}active{% endif %}">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseHistorique" aria-expanded="true" aria-controls="collapseHistorique">
             <i class="fas fa-fw fa-table"></i>
             <span>Historique</span>
           </a>
+          <div id="collapseHistorique" class="collapse" aria-labelledby="headingHistorique">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="{{ path('app_historique') }}">{% if route_name == "app_historique" %}> {% else %}{% endif %}Simplifié</a>
+              <a class="collapse-item" href="{{ path('app_historique_detail_list') }}">{% if route_name == "app_historique_detail_list" or route_name == "app_historique_detail_list_ym" or route_name == "app_historique_detail_result" %}> {% else %}{% endif %}Détaillé</a>
+            </div>
+          </div>
         </li>
 
         <!-- Divider -->

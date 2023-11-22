@@ -104,6 +104,21 @@
                 </div>
               </div>
 
+              <hr />
+
+              <div class="form-row">
+                  <label for="nbtime">Commentaire spécifique</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <i class="fas fa-pen"></i>
+                      </div>
+                    </div>
+                    {{ form_widget(resultat_form.commentaire) }}
+                    {{ form_errors(resultat_form.commentaire) }}
+                  </div>
+                </div>
+
               <br />
 
               <button type="submit" class="btn btn-primary">Modifier</button>

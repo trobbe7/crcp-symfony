@@ -3,13 +3,16 @@ Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,Bli
 Chart.defaults.global.defaultFontColor = '#858796';
 
 $.ajax({
-url:"./charts/area",
+url:"./charts/dashboard/",
 method:"GET",
 success:function(data)  {
 
-// Area Chart - Resultats
 var ctx = document.getElementById("chartResultats");
-var myLineChart = new Chart(ctx, {
+var ctx2 = document.getElementById("chartPoids");
+
+// Area Chart - Dashboard
+
+new Chart(ctx, {
   type: 'line',
   data: {
     labels: data["chartDate"],
@@ -91,5 +94,44 @@ var myLineChart = new Chart(ctx, {
     }
   }
 });
+
+// Pie Chart - Dashboard
+
+new Chart(ctx2, {
+  type: 'doughnut',
+  data: {
+    labels: ["Téléphone", "Mail", "DEC"].reverse(),
+    datasets: [{
+      data: [data["chartTel"], data["chartMail"], data["chartDEC"]].reverse(),
+      backgroundColor: ['#4e73df', '#00ff00', '#f6c23e'].reverse(),
+      hoverBackgroundColor: ['#4e73df', '#00ff00', '#f6c23e'].reverse(),
+      hoverBorderColor: "rgba(234, 236, 244, 1)",
+    }],
+  },
+  options: {
+    maintainAspectRatio: false,
+    tooltips: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+            return data.labels[tooltipItem.index] + ': ' + data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index] + '%';
+        }
+      },
+      backgroundColor: "rgb(255,255,255)",
+      bodyFontColor: "#858796",
+      borderColor: '#dddfeb',
+      borderWidth: 1,
+      xPadding: 15,
+      yPadding: 15,
+      displayColors: false,
+      caretPadding: 10,
+    },
+    legend: {
+      display: false,
+      reverse: true,
+    },
+    cutoutPercentage: 80,
+  },
+});
+
 },
 });

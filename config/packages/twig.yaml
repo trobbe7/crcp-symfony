@@ -2,6 +2,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         'revision' : '%app.revision%'
+        'site_title' : '%app.shrink_name%'
     paths:
         '%kernel.project_dir%/public/assets/img': img
 

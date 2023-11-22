@@ -51,15 +51,12 @@ class ResultatsRepository extends ServiceEntityRepository
 
     public function retrieveGraphActualMonth($uid): array
     {
-
-        $from_date = date('y') . "-" . date('m') . "-01 00:00:00";
-        $to_date = date('y') . "-" . date('m') . "-31 23:59:59";
-
         return $this->createQueryBuilder('r')
-            ->where('r.created_at BETWEEN :from_date AND :to_date')
-            ->andWhere('r.uid = :uid')
-            ->setParameter('from_date', $from_date)
-            ->setParameter('to_date', $to_date)
+        ->where("r.created_at >= :firstOfMonth")
+        ->andWhere("r.created_at <= :lastOfMonth")
+        ->andWhere('r.uid = :uid')
+        ->setParameter('firstOfMonth', (new \DateTimeImmutable())->modify('first day of this month'))
+        ->setParameter('lastOfMonth', (new \DateTimeImmutable())->modify('last day of this month'))
             ->setParameter('uid', $uid)
             ->orderBy('r.id', 'ASC')
             ->getQuery()
@@ -68,15 +65,13 @@ class ResultatsRepository extends ServiceEntityRepository
 
     public function getActualMonthWorkingTime($uid): float
     {
-        $from_date = date('y') . "-" . date('m') . "-01 00:00:00";
-        $to_date = date('y') . "-" . date('m') . "-31 23:59:59";
-
         return $this->createQueryBuilder('r')
             ->select('COALESCE(SUM(r.full_time), 0) AS ActualMonthWorkingTime')
-            ->where('r.created_at BETWEEN :from_date AND :to_date')
+            ->where("r.created_at >= :firstOfMonth")
+            ->andWhere("r.created_at <= :lastOfMonth")
             ->andWhere('r.uid = :uid')
-            ->setParameter('from_date', $from_date)
-            ->setParameter('to_date', $to_date)
+            ->setParameter('firstOfMonth', (new \DateTimeImmutable())->modify('first day of this month'))
+            ->setParameter('lastOfMonth', (new \DateTimeImmutable())->modify('last day of this month'))
             ->setParameter('uid', $uid)
             ->getQuery()
             ->getSingleScalarResult();
@@ -84,15 +79,13 @@ class ResultatsRepository extends ServiceEntityRepository
 
     public function getActualMonthWorkingMinutes($uid): float
     {
-        $from_date = date('y') . "-" . date('m') . "-01 00:00:00";
-        $to_date = date('y') . "-" . date('m') . "-31 23:59:59";
-
         return $this->createQueryBuilder('r')
             ->select('COALESCE(SUM(r.time_minutes), 0) AS ActualMonthWorkingMinutes')
-            ->where('r.created_at BETWEEN :from_date AND :to_date')
+            ->where("r.created_at >= :firstOfMonth")
+            ->andWhere("r.created_at <= :lastOfMonth")
             ->andWhere('r.uid = :uid')
-            ->setParameter('from_date', $from_date)
-            ->setParameter('to_date', $to_date)
+            ->setParameter('firstOfMonth', (new \DateTimeImmutable())->modify('first day of this month'))
+            ->setParameter('lastOfMonth', (new \DateTimeImmutable())->modify('last day of this month'))
             ->setParameter('uid', $uid)
             ->getQuery()
             ->getSingleScalarResult();
@@ -100,15 +93,13 @@ class ResultatsRepository extends ServiceEntityRepository
 
     public function getActualMonthTraitements($uid): int
     {
-        $from_date = date('y') . "-" . date('m') . "-01 00:00:00";
-        $to_date = date('y') . "-" . date('m') . "-31 23:59:59";
-
         return $this->createQueryBuilder('r')
             ->select('COALESCE(SUM(r.traitements), 0) AS ActualMonthTraitements')
-            ->where('r.created_at BETWEEN :from_date AND :to_date')
+            ->where("r.created_at >= :firstOfMonth")
+            ->andWhere("r.created_at <= :lastOfMonth")
             ->andWhere('r.uid = :uid')
-            ->setParameter('from_date', $from_date)
-            ->setParameter('to_date', $to_date)
+            ->setParameter('firstOfMonth', (new \DateTimeImmutable())->modify('first day of this month'))
+            ->setParameter('lastOfMonth', (new \DateTimeImmutable())->modify('last day of this month'))
             ->setParameter('uid', $uid)
             ->getQuery()
             ->getSingleScalarResult();
@@ -137,6 +128,21 @@ class ResultatsRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function getFromYM($year, $month, $uid): array
+    {
+        $from_date = $year . "-" . $month . "-01 00:00:00"; // User Input
+        $to_date = date('Y-m-t 23:59:59', strtotime($from_date)); // t dans le timestamp correspond au dernier jour du mois défini
+
+        return $this->createQueryBuilder('r')
+        ->where("r.created_at BETWEEN :from_date AND :to_date")
+        ->andWhere('r.uid = :uid')
+        ->setParameter('from_date', $from_date)
+        ->setParameter('to_date', $to_date)
+        ->setParameter('uid', $uid)
+        ->getQuery()
+        ->getResult();
     }
 
 
