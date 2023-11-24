@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/trobbe7/crcp-symfony">
-    <img src="https://team-crcp.com/assets/img/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://team-crcp.fr/assets/img/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">CRCP</h3>

@@ -94,7 +94,7 @@ class HistoriqueController extends AbstractController
 
         return $this->render('historique/list_ym.html.twig', [
             'historique' => $repo,
-            'input_date' => $year . '-' . $month,
+            'input_date' => $year . '-' . $month . '-02', /* ToFix: Si pas de jour ou '01', retourne l'année d'avant en Janvier uniq. ?? */
         ]);
 
     }
